@@ -1,9 +1,15 @@
 {
-    "name": "imliam/shareable-link",
+    "name": "bahmanshams/shareable-link",
     "description": "Conveniently generate shareable URLs for various social media websites",
     "type": "library",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Bahman Shams",
+            "email": "bahman@bahmanshams.ir",
+            "homepage": "https://bahmanshams.ir/",
+            "role": "Developer"
+        },
         {
             "name": "Liam Hammett",
             "email": "liam@liamhammett.com",

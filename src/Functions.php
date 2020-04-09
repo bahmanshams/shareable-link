@@ -1,6 +1,6 @@
 <?php
 
-use ImLiam\ShareableLink;
+use BahmanShams\ShareableLink;
 
 if (! function_exists('shareable_link')) {
     /**

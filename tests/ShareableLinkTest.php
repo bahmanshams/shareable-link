@@ -3,7 +3,7 @@
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use ImLiam\ShareableLink;
+use BahmanShams\ShareableLink;
 
 class ShareableLinkTest extends TestCase
 {
@@ -19,14 +19,14 @@ class ShareableLinkTest extends TestCase
         // Environment variable is set in the phpunit.xml configuration file
         $this->assertEquals(
             $this->url->facebook,
-            'https://www.facebook.com/dialog/share?app_id=FROM_ENV&href=https://example.com/&display=page&title=Example+Site'
+            'https://www.facebook.com/dialog/share?app_id=FROM_ENV&href=https://example.com/&display=popup&title=Example+Site'
         );
 
         // Explicitly set a new environment variable
         putenv('FACEBOOK_APP_ID=ABC123');
         $this->assertEquals(
             $this->url->facebook,
-            'https://www.facebook.com/dialog/share?app_id=ABC123&href=https://example.com/&display=page&title=Example+Site'
+            'https://www.facebook.com/dialog/share?app_id=ABC123&href=https://example.com/&display=popup&title=Example+Site'
         );
     }
 
@@ -35,7 +35,7 @@ class ShareableLinkTest extends TestCase
     {
         $this->assertEquals(
             $this->url->getFacebookUrl('XYZ789'),
-            'https://www.facebook.com/dialog/share?app_id=XYZ789&href=https://example.com/&display=page&title=Example+Site'
+            'https://www.facebook.com/dialog/share?app_id=XYZ789&href=https://example.com/&display=popup&title=Example+Site'
         );
     }
 
@@ -62,25 +62,7 @@ class ShareableLinkTest extends TestCase
     {
         $this->assertEquals(
             $this->url->linkedin,
-            'https://www.linkedin.com/shareArticle?mini=true&url=https://example.com/&summary=Example+Site'
-        );
-    }
-
-    /** @test */
-    public function it_can_generate_a_pinterest_url()
-    {
-        $this->assertEquals(
-            $this->url->pinterest,
-            'https://pinterest.com/pin/create/button/?media=&url=https://example.com/&description=Example+Site'
-        );
-    }
-
-    /** @test */
-    public function it_can_generate_a_google_plus_url()
-    {
-        $this->assertEquals(
-            $this->url->google,
-            'https://plus.google.com/share?url=https://example.com/'
+            'https://www.linkedin.com/sharing/share-offsite?url=https://example.com'
         );
     }
 

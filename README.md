@@ -9,13 +9,13 @@ Conveniently generate shareable URLs for a variety of different social media web
 You can install this package with Composer using the following command:
 
 ```bash
-composer require imliam/shareable-link:^1.0.0
+composer require bahmanshams/shareable-link:^1.0.0
 ```
 
 ## Example Usage
 
 ```php
-$url = new \ImLiam\ShareableLink('http://example.com/', 'Example Site');
+$url = new \BahmanShams\ShareableLink('http://example.com/', 'Example Site');
 
 // Alternatively, with the helper function:
 // shareable_link('http://example.com/', 'Example Site');
@@ -30,13 +30,7 @@ echo $url->whatsapp;
 // https://wa.me/?text=Example+Site+https%3A%2F%2Fexample.com%2F
 
 echo $url->linkedin;
-// https://www.linkedin.com/shareArticle?mini=true&url=https://example.com/&summary=Example+Site
-
-echo $url->pinterest;
-// https://pinterest.com/pin/create/button/?media=&url=https://example.com/&description=Example+Site
-
-echo $url->google;
-// https://plus.google.com/share?url=https://example.com/
+// https://www.linkedin.com/sharing/share-offsite?url=https://example.com
 ```
 
 ## Facebook Link Notes
@@ -44,7 +38,7 @@ echo $url->google;
 A link shareable through Facebook requires an app ID from the platform. By default, this will attempt to be obtained through a `FACEBOOK_APP_ID` environment variable. However, if this environment variable does not exist, or you need to pass through different app IDs for different URLs, you can pass one through explicitly to the `getFacebookUrl()` method.
 
 ```php
-$url = new \ImLiam\ShareableLink('http://example.com/', 'Example Site');
+$url = new \BahmanShams\ShareableLink('http://example.com/', 'Example Site');
 
 putenv('FACEBOOK_APP_ID=ABC123');
 
@@ -64,11 +58,11 @@ The advantage of this is that you get full control over the URL and title you wa
 ```php
 class News extends Model
 {
-    public function getShareUrlAttribute(): \ImLiam\ShareableLink
+    public function getShareUrlAttribute(): \BahmanShams\ShareableLink
     {
         $url = route('news.show', $this->slug);
 
-        return new \ImLiam\ShareableLink($url, $this->title);
+        return new \BahmanShams\ShareableLink($url, $this->title);
     }
 }
 ```
@@ -81,4 +75,5 @@ $news->share_url->twitter;
 
 ## Credits
 
+- [Liam Hammett](https://liamhammett.com/) for the [original article](https://medium.com/@liamhammett/php-shareable-social-media-links-d859f5dd5006) that prompted this
 - [Denis Smink](https://dennissmink.nl/) for the [original article](https://medium.com/@dennissmink/laravel-shareable-trait-1a6b12a05094) that prompted this

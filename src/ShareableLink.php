@@ -1,11 +1,14 @@
 <?php
 
-namespace ImLiam;
+namespace BahmanShams;
+
+use InvalidArgumentException;
+use ReflectionClass;
+use ReflectionException;
 
 /**
- * Automatically generate shareable URLs for various social media websites.
- *
- * @link https://medium.com/@dennissmink/laravel-shareable-trait-1a6b12a05094
+ * Class ShareableLink
+ * @package BahmanShams
  */
 class ShareableLink
 {
@@ -36,17 +39,18 @@ class ShareableLink
      *
      * @param string $name
      * @return mixed
+     * @throws ReflectionException
      */
     public function __get($name)
     {
         $methodName = 'get' . ucfirst($name) . 'Url';
 
-        if (method_exists($this, $methodName)){
+        if (method_exists($this, $methodName)) {
             return $this->{$methodName}();
         }
 
-        $classShortName = (new \ReflectionClass($this))->getShortName();
-        throw new \InvalidArgumentException("Undefined property: {$classShortName}::{$name}");
+        $classShortName = (new ReflectionClass($this))->getShortName();
+        throw new InvalidArgumentException("Undefined property: {$classShortName}::{$name}");
     }
 
     public function getFacebookUrl(string $appId = null): string
@@ -56,8 +60,7 @@ class ShareableLink
         return $this->buildFormattedUrl('https://www.facebook.com/dialog/share?', [
             'app_id' => $appId ?? $env('FACEBOOK_APP_ID') ?: '',
             'href' => $this->url,
-            'display' => 'page',
-            'title' => urlencode($this->title),
+            'display' => 'popup',
         ]);
     }
 
@@ -65,7 +68,7 @@ class ShareableLink
     {
         return $this->buildFormattedUrl('https://twitter.com/intent/tweet?', [
             'url' => $this->url,
-            'text' => urlencode($this->limit($this->title, 120)),
+            'text' => urlencode($this->limit($this->title, 280)),
         ]);
     }
 
@@ -78,23 +81,7 @@ class ShareableLink
 
     public function getLinkedinUrl(): string
     {
-        return $this->buildFormattedUrl('https://www.linkedin.com/shareArticle?mini=true&', [
-            'url' => $this->url,
-            'summary' => urlencode($this->title),
-        ]);
-    }
-
-    public function getPinterestUrl(): string
-    {
-        return $this->buildFormattedUrl('https://pinterest.com/pin/create/button/?media=&', [
-            'url' => $this->url,
-            'description' => urlencode($this->title),
-        ]);
-    }
-
-    public function getGoogleUrl(): string
-    {
-        return $this->buildFormattedUrl('https://plus.google.com/share?', [
+        return $this->buildFormattedUrl('https://www.linkedin.com/sharing/share-offsite?', [
             'url' => $this->url,
         ]);
     }
@@ -115,6 +102,6 @@ class ShareableLink
             return $value;
         }
 
-        return rtrim(mb_strimwidth($value, 0, $limit, '', 'UTF-8')).$end;
+        return rtrim(mb_strimwidth($value, 0, $limit, '', 'UTF-8')) . $end;
     }
 }
